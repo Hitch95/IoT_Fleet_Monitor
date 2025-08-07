@@ -4,7 +4,7 @@ import mqtt from 'mqtt';
 const MQTT_BROKER_URL = 'mqtt://broker.hivemq.com';
 const VEHICLE_ID = 'TRACTOR-01';
 const TELEMETRY_TOPIC = `fleet/telemetry/${VEHICLE_ID}`;
-const PUBLISH_INTERVAL_MS = 5000; // Publie toutes les 5 secondes
+const PUBLISH_INTERVAL_MS = 5000; // Publishes every 5 seconds
 // ---------------------
 
 console.log(`[Simulator] Connecting to MQTT broker at ${MQTT_BROKER_URL}...`);
@@ -12,20 +12,20 @@ const client = mqtt.connect(MQTT_BROKER_URL);
 
 client.on('connect', () => {
   console.log('[Simulator] Connected to MQTT broker!');
-  // Lance la publication des données à intervalle régulier
+  // Starts publishing data at regular intervals
   setInterval(publishTelemetry, PUBLISH_INTERVAL_MS);
 });
 
 client.on('error', (error) => {
   console.error('[Simulator] MQTT connection error:', error);
-  client.end(); // Arrête le client en cas d'erreur
+  client.end(); // Stops the client in case of error
 });
 
 function generateTelemetryData() {
   const data = {
     vehicleId: VEHICLE_ID,
     timestamp: new Date().toISOString(),
-    // Génère des valeurs aléatoires pour simuler les capteurs
+    // Generates random values to simulate sensors
     fuelLevel: parseFloat((Math.random() * (80 - 20) + 20).toFixed(2)), // %
     engineTemp: parseFloat((Math.random() * (110 - 85) + 85).toFixed(2)), // °C
     gps: {
@@ -53,15 +53,14 @@ function publishTelemetry() {
 }
 
 /*
-On se connecte au broker public HiveMQ.
+We connect to the public HiveMQ broker.
 
-Quand la connexion est établie (client.on('connect', ...)), 
-on lance un setInterval qui appellera la fonction publishTelemetry 
-toutes les 5 secondes.
+When the connection is established (client.on('connect', ...)),
+we start a setInterval that will call the publishTelemetry function
+every 5 seconds.
 
-generateTelemetryData crée un objet JavaScript avec des données simulées.
+generateTelemetryData creates a JavaScript object with simulated data.
 
-publishTelemetry transforme cet objet en une chaîne 
-de caractères JSON (JSON.stringify) et le publie sur 
-un topic MQTT spécifique à notre véhicule.
+publishTelemetry turns this object into a JSON string (JSON.stringify) and publishes it
+to an MQTT topic specific to our vehicle.
 */

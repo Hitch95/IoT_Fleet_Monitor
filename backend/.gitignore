@@ -1,4 +1,8 @@
 dist/
 node_modules/
 
+instructions.md
+step_one.md
+step_two.md
+
 .env
