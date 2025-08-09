@@ -1,39 +1,33 @@
-import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
+import {
+  Sequelize,
+  DataTypes,
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+} from 'sequelize';
 
-interface TelemetryAttributes {
-  id?: number;
-  vehicleId: string;
-  timestamp: Date;
-  fuelLevel: number;
-  engineTemp: number;
-  gpsLat: number;
-  gpsLng: number;
+class Telemetry extends Model<
+  InferAttributes<Telemetry, { omit: 'createdAt' | 'updatedAt' }>,
+  InferCreationAttributes<Telemetry, { omit: 'createdAt' | 'updatedAt' }>
+> {
+  declare id: CreationOptional<number>;
+  declare vehicleId: string;
+  declare timestamp: Date;
+  declare fuelLevel: number;
+  declare engineTemp: number;
+  declare gpsLat: number;
+  declare gpsLng: number;
+
+  declare readonly createdAt: Date;
+  declare readonly updatedAt: Date;
 }
 
-interface TelemetryCreationAttributes
-  extends Optional<TelemetryAttributes, 'id'> {}
-
-class Telemetry
-  extends Model<TelemetryAttributes, TelemetryCreationAttributes>
-  implements TelemetryAttributes
-{
-  public id!: number;
-  public vehicleId!: string;
-  public timestamp!: Date;
-  public fuelLevel!: number;
-  public engineTemp!: number;
-  public gpsLat!: number;
-  public gpsLng!: number;
-
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-}
-
-export default (sequelize: Sequelize) => {
+const initTelemetry = (sequelize: Sequelize) => {
   Telemetry.init(
     {
       id: {
-        type: DataTypes.INTEGER.UNSIGNED,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
       },
@@ -65,10 +59,9 @@ export default (sequelize: Sequelize) => {
     {
       sequelize,
       tableName: 'telemetry',
+      timestamps: true,
     }
   );
-
-  return Telemetry;
 };
 
-export { Telemetry };
+export { Telemetry, initTelemetry };
