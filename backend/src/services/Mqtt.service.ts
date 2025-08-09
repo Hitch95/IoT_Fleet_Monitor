@@ -28,10 +28,10 @@ class MqttService {
         const now = new Date();
         await this.TelemetryModel.create({
           vehicleId: payload.vehicleId,
-          gpsLat: payload.location?.lat ?? 0,
-          gpsLng: payload.location?.lng ?? 0,
+          gpsLat: payload.gpsLat ?? 0,
+          gpsLng: payload.gpsLng ?? 0,
           fuelLevel: payload.fuelLevel,
-          engineTemp: 90,
+          engineTemp: payload.engineTemp ?? 0,
           timestamp: payload.timestamp ? new Date(payload.timestamp) : now,
         });
         console.log(`[MQTT] Inserted telemetry for ${payload.vehicleId}`);
