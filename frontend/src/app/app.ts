@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { TelemetryDashboard } from "./components/telemetry-dashboard/telemetry-dashboard";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, TelemetryDashboard],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

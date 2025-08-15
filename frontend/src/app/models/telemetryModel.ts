@@ -1,11 +1,11 @@
 export interface TelemetryData {
   id: string;
+  vehicleId: string;
   timestamp: Date;
-  deviceId: string;
-  temperature: number;
-  humidity: number;
-  location: {
-    latitude: number;
-    longitude: number;
-  };
+  fuelLevel: number;
+  engineTemp: number;
+  gpsLat: number;
+  gpsLng: number;
+  createdAt: Date;
+  updatedAt: Date;
 }

@@ -1,6 +1,8 @@
 dist/
 node_modules/
 
+telemetry.sqlite
+
 instructions.md
 
 .env

@@ -1,1 +1,13 @@
-<p>telemetry-dashboard works!</p>
+<div class="dashboard-container">
+    <h1>IoT Fleet Dashboard</h1>
+
+    @if (telemetryDataList$ | async; as dataList) {
+    <div class="telemetry-grid">
+        @for (telemetry of dataList; track telemetry.id) {
+        <app-telemetry-card [telemetryData]="telemetry" />
+        }
+    </div>
+    } @else {
+    <p>Loading telemetry data or none available...</p>
+    }
+</div>

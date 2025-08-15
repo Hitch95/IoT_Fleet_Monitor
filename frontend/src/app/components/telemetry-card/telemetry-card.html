@@ -1,1 +1,29 @@
-<p>telemetry-card works!</p>
+<section aria-label="Telemetry list">
+    <article class="telemetry-card" [attr.aria-labelledby]="telemetryData ? 'device-' + telemetryData.vehicleId : null">
+        <header class="card-header">
+            <h3 id="device-{{ telemetryData.vehicleId }}">Device: {{ telemetryData.vehicleId }}</h3>
+            <time class="timestamp" [attr.datetime]="telemetryData.timestamp">
+                {{ telemetryData.timestamp | date:'short' }}
+            </time>
+        </header>
+
+        <div class="card-body" aria-label="Telemetry data">
+            <dl>
+                <div class="data-item">
+                    <dt>Fuel level</dt>
+                    <dd class="value">{{ telemetryData.fuelLevel }}</dd>
+                </div>
+
+                <div class="data-item">
+                    <dt>Engine Temperature</dt>
+                    <dd class="value">{{ telemetryData.engineTemp }} °C</dd>
+                </div>
+
+                <div class="data-item">
+                    <dt>Location</dt>
+                    <dd class="value">Lat: {{ telemetryData.gpsLat }}, Lng: {{ telemetryData.gpsLng }}</dd>
+                </div>
+            </dl>
+        </div>
+    </article>
+</section>

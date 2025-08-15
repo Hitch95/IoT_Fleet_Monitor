@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  private readonly backendUrl = 'http://localhost:3000/telemetry';
+  private readonly backendUrl = 'http://localhost:3000/api/telemetry';
   resource = httpResource<TelemetryData>(() => this.backendUrl);
 
   // Constructor to inject HttpClient

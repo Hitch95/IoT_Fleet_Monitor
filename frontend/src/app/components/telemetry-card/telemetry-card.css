@@ -1,0 +1,52 @@
+.telemetry-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    background-color: #fff;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.telemetry-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.card-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.timestamp {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.card-body .data-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding: 4px 0;
+}
+
+.card-body .data-item:last-child {
+    margin-bottom: 0;
+}
+
+.card-body .data-item label {
+    font-weight: bold;
+    color: #555;
+}
+
+.card-body .data-item .value {
+    color: #333;
+}

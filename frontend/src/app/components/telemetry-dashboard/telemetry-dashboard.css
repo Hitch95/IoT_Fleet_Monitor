@@ -1,0 +1,19 @@
+.dashboard-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.dashboard-container h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.telemetry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.telemetry-grid app-telemetry-card {
+    /* Styles specific to the card will be defined in telemetry-card.component.css */
+}
