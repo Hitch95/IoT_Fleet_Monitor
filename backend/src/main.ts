@@ -1,7 +1,7 @@
-import app from './app';
-import sequelize from './config/database';
-import { initTelemetry, Telemetry } from './models/Telemetry';
-import MqttService from './services/mqtt.service';
+import app from './app.js';
+import sequelize from './config/database.js';
+import { initTelemetry, Telemetry } from './models/Telemetry.js';
+import MqttService from './services/mqtt.service.js';
 
 const port = Number(process.env.PORT) || 3000;
 

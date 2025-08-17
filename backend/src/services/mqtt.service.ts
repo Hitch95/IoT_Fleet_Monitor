@@ -1,5 +1,5 @@
 import mqtt, { MqttClient } from 'mqtt';
-import { Telemetry } from '../models/Telemetry';
+import { Telemetry } from '../models/Telemetry.js';
 
 class MqttService {
   private readonly client: MqttClient;

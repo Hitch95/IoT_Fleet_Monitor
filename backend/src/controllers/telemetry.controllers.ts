@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import MqttService from '../services/mqtt.service';
+import MqttService from '../services/mqtt.service.js';
 
 class TelemetryController {
   static async getAllTelemetry(req: Request, res: Response) {

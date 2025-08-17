@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 
-import telemetryRoutes from './routes/telemetry.route';
+import telemetryRoutes from './routes/telemetry.route.js';
 
 const app = express();
 
