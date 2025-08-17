@@ -2,7 +2,7 @@
     <h1>IoT Fleet Dashboard</h1>
 
     <div class="telemetry-grid">
-        @for (group of telemetryDataList$ | async | keyvalue; track $index) {
+        @for (group of telemetryDataList() | keyvalue; track $index) {
         <div>
             <h3>Device: {{ group.key }}</h3>
             @for (telemetryData of group.value; track $index) {

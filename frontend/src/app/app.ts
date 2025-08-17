@@ -4,6 +4,7 @@ import { TelemetryDashboard } from "./components/telemetry-dashboard/telemetry-d
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [RouterOutlet, TelemetryDashboard],
   templateUrl: './app.html',
   styleUrl: './app.css'

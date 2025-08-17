@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, Signal, ChangeDetectionStrategy } from '@angular/core';
 import { ApiService } from '../../services/api-service';
 import { TelemetryData } from '../../models/telemetryModel';
 import { TelemetryCard } from '../telemetry-card/telemetry-card';
-import { AsyncPipe, KeyValuePipe } from '@angular/common';
-import { map, Observable } from 'rxjs';
+import { KeyValuePipe } from '@angular/common';
+import { map } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 interface GroupedTelemetryData {
   [key: string]: TelemetryData[];
@@ -11,21 +12,16 @@ interface GroupedTelemetryData {
 
 @Component({
   selector: 'app-telemetry-dashboard',
-  imports: [TelemetryCard, AsyncPipe, KeyValuePipe],
+  imports: [TelemetryCard, KeyValuePipe],
   templateUrl: './telemetry-dashboard.html',
-  styleUrl: './telemetry-dashboard.css'
+  styleUrl: './telemetry-dashboard.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
-export class TelemetryDashboard implements OnInit {
-  telemetryDataList$: Observable<GroupedTelemetryData> | null =  null;
-
-  constructor(private readonly apiService: ApiService) {}
-
-  ngOnInit(): void {
-    this.fetchTelemetryData();
-  }
-
-  fetchTelemetryData(): void {
-    this.telemetryDataList$ = this.apiService.getAllTelemetryData().pipe(
+export class TelemetryDashboard {
+  private readonly apiService = inject(ApiService);
+  protected telemetryDataList: Signal<GroupedTelemetryData | undefined> = toSignal(
+    this.apiService.getAllTelemetryData().pipe(
       map((data: TelemetryData[]) => {
         return data.reduce((accumulator: GroupedTelemetryData, item) => {
           const key = item.vehicleId;
@@ -38,6 +34,6 @@ export class TelemetryDashboard implements OnInit {
           return accumulator;
         }, {});
       })
-    );
-  }
+    )
+  );
 }
