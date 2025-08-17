@@ -2,8 +2,8 @@ import mqtt, { MqttClient } from 'mqtt';
 import { Telemetry } from '../models/Telemetry';
 
 class MqttService {
-  private client: MqttClient;
-  private TelemetryModel: typeof Telemetry;
+  private readonly client: MqttClient;
+  private readonly TelemetryModel: typeof Telemetry;
 
   constructor(TelemetryModel: typeof Telemetry) {
     this.TelemetryModel = TelemetryModel;
