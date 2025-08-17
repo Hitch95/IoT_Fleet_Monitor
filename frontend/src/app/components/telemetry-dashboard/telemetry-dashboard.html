@@ -1,13 +1,16 @@
 <div class="dashboard-container">
     <h1>IoT Fleet Dashboard</h1>
 
-    @if (telemetryDataList$ | async; as dataList) {
     <div class="telemetry-grid">
-        @for (telemetry of dataList; track telemetry.id) {
-        <app-telemetry-card [telemetryData]="telemetry" />
+        @for (group of telemetryDataList$ | async | keyvalue; track $index) {
+        <div>
+            <h3>Device: {{ group.key }}</h3>
+            @for (telemetryData of group.value; track $index) {
+            <app-telemetry-card [telemetryData]="telemetryData" />
+            }
+        </div>
+        } @empty {
+        <p>Loading telemetry data or none available...</p>
         }
     </div>
-    } @else {
-    <p>Loading telemetry data or none available...</p>
-    }
 </div>
