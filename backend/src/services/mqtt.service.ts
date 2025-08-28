@@ -1,5 +1,6 @@
 import mqtt, { MqttClient } from 'mqtt';
 import { Telemetry } from '../models/Telemetry.js';
+import TelemetrySchema from '../zod-shema/TelemetrySchema.js';
 
 class MqttService {
   private readonly client: MqttClient;
@@ -25,25 +26,18 @@ class MqttService {
     this.client.on('message', async (topic, message) => {
       try {
         const payload = JSON.parse(message.toString());
-        const now = new Date();
+        const result = TelemetrySchema.safeParse(payload);
 
-        if (
-          payload.vehicleId &&
-          payload.gps.lat &&
-          payload.gps.lng &&
-          payload.fuelLevel &&
-          payload.engineTemp &&
-          payload.timestamp
-        ) {
+        if (result.success) {
+          const { gps, ...rest } = result.data;
           await this.TelemetryModel.create({
-            vehicleId: payload.vehicleId,
-            gpsLat: payload.gps.lat,
-            gpsLng: payload.gps.lng,
-            fuelLevel: payload.fuelLevel,
-            engineTemp: payload.engineTemp,
-            timestamp: payload.timestamp ? new Date(payload.timestamp) : now,
+            ...rest,
+            gpsLat: gps.lat,
+            gpsLng: gps.lng,
           });
-          console.log(`[MQTT] Inserted telemetry for ${payload.vehicleId}`);
+          console.log(`[MQTT] Inserted telemetry for ${result.data.vehicleId}`);
+        } else {
+          console.error('[MQTT] Invalid data received:', result.error);
         }
       } catch (err) {
         console.error('[MQTT] Message processing error:', err);
