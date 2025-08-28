@@ -30,6 +30,33 @@ class TelemetryController {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   }
+
+  static async getSpecificTelemetry(req: Request, res: Response) {
+    try {
+      const mqttServiceInstance = (req.app as any).mqttService as MqttService;
+
+      // Check if the instance was successfully retrieved
+      if (!mqttServiceInstance) {
+        console.error(
+          '[TelemetryController] MQTT Service instance not found on app object.'
+        );
+        return res
+          .status(500)
+          .json({ error: 'Internal Server Error - MQTT Service unavailable' });
+      }
+      // --- End of retrieving instance ---
+      const vehicleChosen = await mqttServiceInstance.getSpecificTelemetry(
+        req.params.vehicleId
+      );
+      res.json(vehicleChosen);
+    } catch (error) {
+      console.error(
+        '[TelemetryController] Error fetching the chosen vehicle by id:',
+        error
+      );
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
 }
 
 export default TelemetryController;

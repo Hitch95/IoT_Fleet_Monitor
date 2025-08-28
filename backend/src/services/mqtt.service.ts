@@ -26,15 +26,25 @@ class MqttService {
       try {
         const payload = JSON.parse(message.toString());
         const now = new Date();
-        await this.TelemetryModel.create({
-          vehicleId: payload.vehicleId,
-          gpsLat: payload.gps?.lat,
-          gpsLng: payload.gps?.lng,
-          fuelLevel: payload.fuelLevel,
-          engineTemp: payload.engineTemp,
-          timestamp: payload.timestamp ? new Date(payload.timestamp) : now,
-        });
-        console.log(`[MQTT] Inserted telemetry for ${payload.vehicleId}`);
+
+        if (
+          payload.vehicleId &&
+          payload.gps.lat &&
+          payload.gps.lng &&
+          payload.fuelLevel &&
+          payload.engineTemp &&
+          payload.timestamp
+        ) {
+          await this.TelemetryModel.create({
+            vehicleId: payload.vehicleId,
+            gpsLat: payload.gps.lat,
+            gpsLng: payload.gps.lng,
+            fuelLevel: payload.fuelLevel,
+            engineTemp: payload.engineTemp,
+            timestamp: payload.timestamp ? new Date(payload.timestamp) : now,
+          });
+          console.log(`[MQTT] Inserted telemetry for ${payload.vehicleId}`);
+        }
       } catch (err) {
         console.error('[MQTT] Message processing error:', err);
       }
@@ -49,6 +59,21 @@ class MqttService {
       return telemetryData;
     } catch (error) {
       console.error('[MqttService] Error fetching all telemetry:', error);
+      throw error;
+    }
+  }
+
+  async getSpecificTelemetry(vehicleId?: string) {
+    try {
+      const telemetryData = await this.TelemetryModel.findAll({
+        where: { vehicleId: vehicleId },
+      });
+      return telemetryData;
+    } catch (error) {
+      console.error(
+        '[MqttService] Error fetching specific vehicle by id:',
+        error
+      );
       throw error;
     }
   }
